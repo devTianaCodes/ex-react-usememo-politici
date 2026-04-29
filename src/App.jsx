@@ -1,7 +1,25 @@
-import { useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 
 
+// Milestone 1 e 3: Caricamento dei dati e ottimizzazione del rendering
 
+const PoliticianCard = memo(function PoliticianCard({ politician }) {
+  console.log('Render card:', politician.name)
+
+  return (
+    <article className="politician-card">
+      <img
+        className="politician-image"
+        src={politician.image}
+        alt={politician.name}
+      />
+
+      <h2>{politician.name}</h2>
+      <h3>{politician.position}</h3>
+      <p>{politician.biography}</p>
+    </article>
+  )
+})
 
 function App() {
   const [politicians, setPoliticians] = useState([])
@@ -29,7 +47,7 @@ function App() {
   }, []) //dipendenza vuota che significa che l'effetto viene eseguito solo una volta al montaggio del componente
 
 
-  //milesrone 2
+  // milestone 2
   const filteredPoliticians = useMemo(() => {
     return politicians.filter((politician) => {
       const textToSearch = search.toLowerCase()
@@ -70,17 +88,7 @@ function App() {
       {!loading && !error && (
         <section className="politicians-list">
           {filteredPoliticians.map((politician) => (
-            <article className="politician-card" key={politician.id}>
-              <img
-                className="politician-image"
-                src={politician.image}
-                alt={politician.name}
-              />
-
-              <h2>{politician.name}</h2>
-              <h3>{politician.position}</h3>
-              <p>{politician.biography}</p>
-            </article>
+            <PoliticianCard key={politician.id} politician={politician} />
           ))}
         </section>
       )}
