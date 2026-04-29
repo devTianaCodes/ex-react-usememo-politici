@@ -1,25 +1,32 @@
 import { memo, useEffect, useMemo, useState } from 'react'
 
 
-// Milestone 1 e 3: Caricamento dei dati e ottimizzazione del rendering
-
 const PoliticianCard = memo(function PoliticianCard({ politician }) {
-  console.log('Render card:', politician.name)
+  
+  const politicianName =
+    politician.name === 'Vladimir Putin' ? 'Putin HUYLO' : politician.name
+  const politicianPosition =
+    politician.name === 'Vladimir Putin' ? 'Dictator' : politician.position
+
+  console.log('Render card:', politicianName)
 
   return (
     <article className="politician-card">
       <img
         className="politician-image"
         src={politician.image}
-        alt={politician.name}
+        alt={politicianName}
       />
 
-      <h2>{politician.name}</h2>
-      <h3>{politician.position}</h3>
+      <h2>{politicianName}</h2>
+      <h3>{politicianPosition}</h3>
       <p>{politician.biography}</p>
     </article>
   )
 })
+
+
+
 
 function App() {
   const [politicians, setPoliticians] = useState([])
@@ -44,8 +51,7 @@ function App() {
       .finally(() => {
         setLoading(false)
       })
-  }, []) //dipendenza vuota che significa che l'effetto viene eseguito solo una volta al montaggio del componente
-
+  }, []) //dipendenza vuota,significa che l'effetto viene eseguito solo una volta al montaggio del componente
 
   // milestone 2
   const filteredPoliticians = useMemo(() => {
@@ -56,7 +62,7 @@ function App() {
 
       return name.includes(textToSearch) || biography.includes(textToSearch)
     })
-  }, [politicians, search]) //dipendenze: politicians e search. L'effetto viene eseguito ogni volta che politicians o search cambiano
+  }, [politicians, search]) //dipendenze: politicians e search
 
 
   // const filteredPoliticians = useMemo(() => {
